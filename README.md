@@ -1,3 +1,3 @@
-News-Reader App 
+#News-Reader App 
 Author: Manasa S
         Gahana Shetty
