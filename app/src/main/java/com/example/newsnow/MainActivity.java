@@ -1,13 +1,18 @@
 package com.example.newsnow;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Switch;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     LinearProgressIndicator progressIndicator;
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7;
     SearchView searchview;
+    Switch switcher;
+    boolean nightmode;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +77,40 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         });
         setupRecyclerView();
         getNews("GENERAL",null);
+
+//        switch dark and night
+//        getSupportActionBar().hide();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+
+        switcher=findViewById(R.id.switcher);
+        //used sharedPreferences to save mode if exit the app and go back again
+        sharedPreferences=getSharedPreferences("MODE", Context.MODE_PRIVATE);
+        nightmode=sharedPreferences.getBoolean("night",false); //light mode is the default
+
+        if(nightmode){
+            switcher.setChecked(true);
+        }
+
+        switcher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(nightmode) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor = sharedPreferences.edit();
+                    editor.putBoolean("night",false);
+                }else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    editor=sharedPreferences.edit();
+                    editor.putBoolean("night",true);
+
+                }
+                editor.apply();
+            }
+        });
+
     }
 
     void setupRecyclerView(){
