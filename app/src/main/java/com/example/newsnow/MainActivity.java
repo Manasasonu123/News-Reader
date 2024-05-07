@@ -1,18 +1,8 @@
 package com.example.newsnow;
 
-import android.Manifest;
-import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,16 +13,11 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.kwabenaberko.newsapilib.NewsApiClient;
@@ -42,11 +27,8 @@ import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener{
-    private static final long INTERVAL_PERIOD = 60 * 60 * 1000; // 1 hour
-    private static final int REQUEST_CODE = 123;
     RecyclerView recyclerView;
     List<Article> articleList=new ArrayList<>();
     NewsRecyclerAdapter adapter;
@@ -72,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         btn5=findViewById(R.id.btn_5);
         btn6=findViewById(R.id.btn_6);
         btn7=findViewById(R.id.btn_7);
-//        btnnoti=findViewById(R.id.btn_noti);
 
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
@@ -81,21 +62,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         btn5.setOnClickListener(this);
         btn6.setOnClickListener(this);
         btn7.setOnClickListener(this);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-            if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.POST_NOTIFICATIONS)!= PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.POST_NOTIFICATIONS},101);
-            }
-        }
-//        btnnoti.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                makeNotification();
-//            }
-//        });
-        startPeriodicTask();
-
-//        scheduleNewsUpdate();
 
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -146,61 +112,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         });
 
     }
-
-//    private void scheduleNewsUpdate() {
-//        // Create a periodic work request to execute NewsWorker every 1 hour
-//        PeriodicWorkRequest newsWorkRequest = new PeriodicWorkRequest.Builder(
-//                NewsWorker.class,
-//                1, // Repeat interval
-//                TimeUnit.HOURS
-//        ).build();
-//
-//        // Enqueue the work request
-//        WorkManager.getInstance(getApplicationContext()).enqueue(newsWorkRequest);
-//    }
-
-    private void startPeriodicTask() {
-        Intent intent = new Intent(this, NewsUpdateService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        // Set the interval period for the periodic task
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        if (alarmManager != null) {
-            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime(), INTERVAL_PERIOD, pendingIntent);
-        }
-    }
-//    public  void makeNotification(){
-//        String channelid="CHANNEL_ID_NOTIFICATION";
-//        NotificationCompat.Builder builder=new NotificationCompat.Builder(getApplicationContext(),channelid);
-//
-//        builder.setSmallIcon(R.drawable.baseline_add_circle_24)
-//                .setContentTitle("Notification Title")
-//                .setContentText("Some text for Notification here")
-//                .setAutoCancel(true)
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//
-//        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.putExtra("data","Some value");
-//
-//        PendingIntent pendingIntent=PendingIntent.getActivity(getApplicationContext(),0,intent,PendingIntent.FLAG_MUTABLE);
-//        builder.setContentIntent(pendingIntent);
-//        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-//            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelid);
-//            if(notificationChannel == null){
-//                int importance = NotificationManager.IMPORTANCE_HIGH;
-//                notificationChannel = new NotificationChannel(channelid, "Some description", importance);
-//                notificationChannel.setLightColor(Color.GREEN);
-//                notificationChannel.enableVibration(true);
-//                notificationManager.createNotificationChannel(notificationChannel);
-//            }
-//        }
-//
-//        notificationManager.notify(0,builder.build());
-//    }
 
     void setupRecyclerView(){
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

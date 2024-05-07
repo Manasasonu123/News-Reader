@@ -42,9 +42,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     intent.putExtra("url",article.getUrl());
     v.getContext().startActivity(intent);
         }));
-//        Intent broadcastIntent = new Intent("com.example.newsnow.NEW_HEADLINE");
-//        broadcastIntent.putExtra("headline", article.getTitle());
-//        holder.itemView.getContext().sendBroadcast(broadcastIntent);
     }
     void updateData(List<Article> data){
         articleList.clear();

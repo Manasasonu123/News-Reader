@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="12dp"
     android:elevation="4dp">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,8 +22,9 @@
             android:id="@+id/article_image_view"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="20dp"
             android:orientation="vertical">
 
@@ -47,7 +48,14 @@
                 android:id="@+id/article_source"/>
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/bookmark_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/unbookmarked"
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

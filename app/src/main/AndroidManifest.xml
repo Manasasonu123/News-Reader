@@ -3,12 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -33,16 +29,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"></activity>
-        <service
-            android:name=".NewsUpdateService"
-            android:exported="false" />
-<!--        <receiver android:name=".NewsBroadcastReceiver"-->
-<!--            android:exported="true"> &lt;!&ndash; or "false" based on your requirement &ndash;&gt;-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.example.newsnow.NEW_HEADLINE" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-
     </application>
 
 </manifest>

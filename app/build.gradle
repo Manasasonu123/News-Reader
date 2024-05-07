@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation libs.appcompat
     implementation libs.material
@@ -36,6 +37,7 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.work.runtime
     testImplementation libs.junit
+
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
     implementation 'com.github.KwabenBerko:News-API-Java:1.0.2'
