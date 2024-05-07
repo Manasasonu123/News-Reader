@@ -31,6 +31,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.kwabenaberko.newsapilib.NewsApiClient;
@@ -40,6 +42,7 @@ import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener{
     private static final long INTERVAL_PERIOD = 60 * 60 * 1000; // 1 hour
@@ -92,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
 //        });
         startPeriodicTask();
 
+//        scheduleNewsUpdate();
+
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -141,6 +146,19 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         });
 
     }
+
+//    private void scheduleNewsUpdate() {
+//        // Create a periodic work request to execute NewsWorker every 1 hour
+//        PeriodicWorkRequest newsWorkRequest = new PeriodicWorkRequest.Builder(
+//                NewsWorker.class,
+//                1, // Repeat interval
+//                TimeUnit.HOURS
+//        ).build();
+//
+//        // Enqueue the work request
+//        WorkManager.getInstance(getApplicationContext()).enqueue(newsWorkRequest);
+//    }
+
     private void startPeriodicTask() {
         Intent intent = new Intent(this, NewsUpdateService.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
